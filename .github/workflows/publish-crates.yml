@@ -28,6 +28,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-      - run: cargo publish -p brichka --token ${CRATES_TOKEN}
+      - run: cargo publish -p brichka --token ${CRATES_TOKEN} --allow-dirty
         env:
           CRATES_TOKEN: ${{ secrets.CRATES_TOKEN }}

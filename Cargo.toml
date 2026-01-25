@@ -2,6 +2,7 @@
 name = "brichka"
 version = "0.1.0"
 edition = "2024"
+repository = "https://github.com/nikolaiser/brichka"
 
 [dependencies]
 tokio = { version = "1.0", features = ["full"] }
@@ -14,3 +15,8 @@ clap-stdin = "0.8.0"
 skim = "0.20.5"
 tower-lsp = "0.20.0"
 dashmap = "6.1.0"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

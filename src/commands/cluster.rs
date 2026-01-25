@@ -1,7 +1,7 @@
 use anyhow::Result;
 use tokio::time::{ sleep, Duration };
 
-use crate::{client::cluster::ListClustersResponse, config::ClusterConfig};
+use crate::config::ClusterConfig;
 
 
 pub async fn list() -> Result<()> {

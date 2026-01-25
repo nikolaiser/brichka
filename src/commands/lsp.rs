@@ -1,8 +1,6 @@
-use anyhow::Context;
 use anyhow::Result;
 use dashmap::DashMap;
 use dashmap::DashSet;
-use tokio::fs;
 use std::borrow::Cow;
 use std::sync::Arc;
 use tower_lsp::jsonrpc;

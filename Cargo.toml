@@ -5,6 +5,7 @@ edition = "2024"
 repository = "https://github.com/nikolaiser/brichka"
 license-file = "LICENSE"
 description = "Cli tools for databricks"
+homepage = "https://github.com/nikolaiser/brichka"
 
 [dependencies]
 tokio = { version = "1.0", features = ["full"] }

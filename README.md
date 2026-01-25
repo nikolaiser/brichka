@@ -191,8 +191,6 @@ The `// brichka: exclude` comments let you add dummy values for Databricks objec
 For multiple files in notebook mode, subsequent files should reference the first:
 
 ```scala
-// brichka: include
-
 //> using file fst.sc
 
 // brichka: exclude

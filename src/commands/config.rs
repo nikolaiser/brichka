@@ -65,11 +65,17 @@ fn run_skim(items: &str) -> Result<usize> {
     Ok(selected.get_index())
 }
 
-pub async fn configure_auth(token: Option<String>, cli: Option<String>) -> Result<()> {
-    let maybe_token_config = token.map(|token_str|crate::config::AuthConfig::Token { value: token_str });
-    let maybe_cli_config = cli.map(|path_str|crate::config::AuthConfig::DatabricksCli { path: path_str } );
+pub async fn configure_token_auth(token: String, host: String) -> Result<()> {
 
-    let config = maybe_token_config.or(maybe_cli_config).context("Either CLI or token auth should be specified")?;
+    let config = crate::config::AuthConfig::Token { value: token, host: host };
+
+    config.write_global().await
+}
+
+
+pub async fn configure_cli_auth(path: String, profile: String) -> Result<()> {
+
+    let config = crate::config::AuthConfig::DatabricksCli { path: path, profile: profile };
 
     config.write_global().await
 }

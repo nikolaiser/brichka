@@ -114,9 +114,11 @@ impl ContextConfig {
 pub enum AuthConfig {
     DatabricksCli {
         path: String,    
+        profile: String,
     },
     Token {
-        value: String
+        value: String,
+        host: String
     }
 }
 
@@ -137,7 +139,7 @@ impl AuthConfig {
     }
 
     pub async fn read_global() -> Result<AuthConfig> {
-        Self::read(Self::global_path()?).await.or(Ok(AuthConfig::DatabricksCli { path: "databricks".to_string() }))
+        Self::read(Self::global_path()?).await.or(Ok(AuthConfig::DatabricksCli { path: "databricks".to_string(), profile: "DEFAULT".to_string() }))
     }
 
 

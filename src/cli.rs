@@ -74,12 +74,8 @@ pub enum ConfigCommands {
     Cluster,
     /// Configure Databricks authentication
     Auth {
-        /// Provide a Databricks token
-        #[arg(long, short, global = true, conflicts_with = "cli", required_unless_present = "cli")]
-        token: Option<String>,
-        /// Provide a path to Databricks CLI binary (should be authenticated)
-        #[arg(long, short, global = true, conflicts_with = "token", required_unless_present = "token")]
-        cli: Option<String>
+        #[command(subcommand)]
+        command: AuthConfigCommands,
     }
 }
 
@@ -91,3 +87,22 @@ pub enum StatusCommands {
     Cluster
 }
 
+#[derive(Subcommand, Debug, Clone)]
+pub enum AuthConfigCommands {
+    Token {
+        /// Databricks token
+        #[arg(long, short)]
+        value: String,
+        /// Databricks base URL
+        #[arg(long, short)]
+        host: String
+    },
+    Cli {
+        /// Path to Databricks CLI executable
+        #[arg(long, short, default_value="databricks")]
+        executable: String,
+        /// Databricks profile to use
+        #[arg(long, short, default_value="DEFAULT")]
+        profile: String,
+    }
+}

@@ -28,7 +28,10 @@ async fn run(cli: &Cli) -> Result<()> {
         },
         Commands::Config { command, global } => match command {
             ConfigCommands::Cluster => commands::config::select_cluster(global).await?,
-            ConfigCommands::Auth { token, cli } => commands::config::configure_auth(token, cli).await?
+            ConfigCommands::Auth { command } => match command{
+                cli::AuthConfigCommands::Token { value, host } => crate::commands::config::configure_token_auth(value, host).await?,
+                cli::AuthConfigCommands::Cli { executable: path, profile } => crate::commands::config::configure_cli_auth(path, profile).await?,
+            },
         },
         Commands::Init => commands::init::init().await?,
         Commands::Status { command } => match command {

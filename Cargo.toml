@@ -18,6 +18,7 @@ clap-stdin = "0.8.0"
 skim = "0.20.5"
 tower-lsp = "0.20.0"
 dashmap = "6.1.0"
+reqwest = "0.13.1"
 
 # The profile that 'dist' will build with
 [profile.dist]

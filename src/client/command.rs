@@ -1,3 +1,4 @@
+use reqwest::Method;
 use serde::Deserialize;
 use anyhow::Result;
 
@@ -15,7 +16,7 @@ pub async fn run(command: String, cluster_id: String, context_id: String, langua
         "language": language
     });
 
-    let response = crate::client::call_databricks_api::<RunCommandResponse>("post", "/api/1.2/commands/execute", Some(request_body.to_string())).await?;
+    let response = crate::client::call_databricks_api::<RunCommandResponse>(Method::POST, "/api/1.2/commands/execute", Some(request_body.to_string())).await?;
     Ok(response)
 }
 
@@ -45,6 +46,6 @@ pub struct Schema {
 
 pub async fn get_info(command_id: String, cluster_id: String, context_id: String) -> Result<GetCommandInfoResponse> {
     let path = format!("/api/1.2/commands/status?clusterId={}&contextId={}&commandId={}", cluster_id, context_id, command_id); 
-    let response = crate::client::call_databricks_api::<GetCommandInfoResponse>("get", &path, None).await?;
+    let response = crate::client::call_databricks_api::<GetCommandInfoResponse>(Method::GET, &path, None).await?;
     Ok(response)
 }

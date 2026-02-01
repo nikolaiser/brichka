@@ -1,3 +1,4 @@
+use reqwest::Method;
 use serde::{Deserialize, Serialize};
 use anyhow::Result;
 
@@ -19,7 +20,7 @@ pub struct Cluster{
 
 
 pub async fn list() -> Result<ListClustersResponse> {
-    let response = crate::client::call_databricks_api::<ListClustersResponse>("get", "/api/2.0/clusters/list?filter_by.cluster_sources=UI", None).await?;
+    let response = crate::client::call_databricks_api::<ListClustersResponse>(Method::GET, "/api/2.0/clusters/list?filter_by.cluster_sources=UI", None).await?;
     Ok(response)
 }
 
@@ -31,13 +32,13 @@ pub struct GetClusterInfoResponse {
 
 pub async fn get_info(cluster_id: String) -> Result<GetClusterInfoResponse> {
     let path = format!("/api/2.1/clusters/get?cluster_id={}", cluster_id); 
-    let response = crate::client::call_databricks_api::<GetClusterInfoResponse>("get", &path, None).await?;
+    let response = crate::client::call_databricks_api::<GetClusterInfoResponse>(Method::GET, &path, None).await?;
     Ok(response)
 }
 
 pub async fn start(cluster_id: String) -> Result<GetClusterInfoResponse> {
     let request_body = format!("{{\"clusterId\": \"{}\"}}", cluster_id);
     let path = format!("/api/2.1/clusters/start"); 
-    let response = crate::client::call_databricks_api::<GetClusterInfoResponse>("get", &path, Some(request_body)).await?;
+    let response = crate::client::call_databricks_api::<GetClusterInfoResponse>(Method::GET, &path, Some(request_body)).await?;
     Ok(response)
 }

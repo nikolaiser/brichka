@@ -27,7 +27,8 @@ async fn run(cli: &Cli) -> Result<()> {
             ClusterCommands::Start => commands::cluster::start().await?
         },
         Commands::Config { command, global } => match command {
-            ConfigCommands::Cluster => commands::config::select_cluster(global).await?
+            ConfigCommands::Cluster => commands::config::select_cluster(global).await?,
+            ConfigCommands::Auth { token, cli } => commands::config::configure_auth(token, cli).await?
         },
         Commands::Init => commands::init::init().await?,
         Commands::Status { command } => match command {

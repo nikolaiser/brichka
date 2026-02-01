@@ -72,6 +72,15 @@ pub enum ClusterCommands {
 pub enum ConfigCommands {
     /// Run fuzzy finder to select a cluser that will be used to run the code
     Cluster,
+    /// Configure Databricks authentication
+    Auth {
+        /// Provide a Databricks token
+        #[arg(long, short, global = true, conflicts_with = "cli", required_unless_present = "cli")]
+        token: Option<String>,
+        /// Provide a path to Databricks CLI binary (should be authenticated)
+        #[arg(long, short, global = true, conflicts_with = "token", required_unless_present = "token")]
+        cli: Option<String>
+    }
 }
 
 #[derive(Subcommand, Debug, Clone)]
@@ -81,3 +90,4 @@ pub enum StatusCommands {
     /// Show the current state of the selected cluster
     Cluster
 }
+

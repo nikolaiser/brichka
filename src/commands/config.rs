@@ -3,7 +3,7 @@ use std::io::Cursor;
 use anyhow::{ Result, Context };
 use skim::prelude::*;
 
-use crate::{commands::config, config::ClusterConfig};
+use crate::config::ClusterConfig;
 
 fn render_cluster_state(state: &str) -> &str {
     match state {

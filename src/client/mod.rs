@@ -3,7 +3,6 @@ pub mod context;
 pub mod command;
 pub mod uc;
 
-use std::fmt::format;
 
 use anyhow::{Context, Result};
 use serde::Deserialize;

@@ -1,4 +1,5 @@
-use std::{env, fs};
+use tokio::fs;
+use std::env;
 
 use serde::{Deserialize, Serialize};
 
@@ -31,35 +32,35 @@ impl ClusterConfig {
         }
     }
 
-    fn read(path: String) -> Result<ClusterConfig> {
-        let raw_json = fs::read_to_string(path)?;
+    async fn read(path: String) -> Result<ClusterConfig> {
+        let raw_json = fs::read_to_string(path).await?;
         serde_json::from_str(&raw_json).context("Failed to deserialize config")
     }
 
-    pub fn read_local() -> Result<ClusterConfig> {
-        Self::read(Self::local_path())
+    pub async  fn read_local() -> Result<ClusterConfig> {
+        Self::read(Self::local_path()).await
     }
 
-    pub fn read_global() -> Result<ClusterConfig> {
-        Self::read(Self::global_path()?)
+    pub async  fn read_global() -> Result<ClusterConfig> {
+        Self::read(Self::global_path()?).await
     }
 
 
-    fn write(&self, path: String) -> Result<()> {
+    async fn write(&self, path: String) -> Result<()> {
         let raw_json = serde_json::to_string(self)?;
         if let Some(parent) = std::path::Path::new(&path).parent() {
-            fs::create_dir_all(parent)?;
+            fs::create_dir_all(parent).await?;
         }
-        fs::write(path, raw_json)?;
+        fs::write(path, raw_json).await?;
         Ok(())
     }
 
-    pub fn write_local(&self) -> Result<()> {
-        self.write(Self::local_path())
+    pub async fn write_local(&self) -> Result<()> {
+        self.write(Self::local_path()).await
     }
 
-    pub fn write_global(&self) -> Result<()> {
-        self.write(Self::global_path()?)
+    pub async fn write_global(&self) -> Result<()> {
+        self.write(Self::global_path()?).await
     }
 }
 
@@ -83,28 +84,28 @@ impl ContextConfig {
         }
     }
 
-    fn read(path: String) -> Result<ContextConfig> {
+    async fn read(path: String) -> Result<ContextConfig> {
         
-        let raw_json = fs::read_to_string(path)?;
+        let raw_json = fs::read_to_string(path).await?;
         serde_json::from_str(&raw_json).context("Failed to deserialize config")
     }
 
-    pub fn read_local() -> Result<ContextConfig> {
-        Self::read(Self::local_path())
+    pub async fn read_local() -> Result<ContextConfig> {
+        Self::read(Self::local_path()).await
     }
 
 
-    fn write(&self, path: String) -> Result<()> {
+    async fn write(&self, path: String) -> Result<()> {
         let raw_json = serde_json::to_string(self)?;
         if let Some(parent) = std::path::Path::new(&path).parent() {
-            fs::create_dir_all(parent)?;
+            fs::create_dir_all(parent).await?;
         }
-        fs::write(path, raw_json)?;
+        fs::write(path, raw_json).await?;
         Ok(())
     }
 
-    pub fn write_local(&self) -> Result<()> {
-        self.write(Self::local_path())
+    pub async fn write_local(&self) -> Result<()> {
+        self.write(Self::local_path()).await
     }
 
 }
@@ -130,26 +131,26 @@ impl AuthConfig {
     }
 
 
-    fn read(path: String) -> Result<AuthConfig> {
-        let raw_json = fs::read_to_string(path)?;
+    async fn read(path: String) -> Result<AuthConfig> {
+        let raw_json = fs::read_to_string(path).await?;
         serde_json::from_str(&raw_json).context("Failed to deserialize config")
     }
 
-    pub fn read_global() -> Result<AuthConfig> {
-        Self::read(Self::global_path()?).or(Ok(AuthConfig::DatabricksCli { path: "databricks".to_string() }))
+    pub async fn read_global() -> Result<AuthConfig> {
+        Self::read(Self::global_path()?).await.or(Ok(AuthConfig::DatabricksCli { path: "databricks".to_string() }))
     }
 
 
-    fn write(&self, path: String) -> Result<()> {
+    async fn write(&self, path: String) -> Result<()> {
         let raw_json = serde_json::to_string(self)?;
         if let Some(parent) = std::path::Path::new(&path).parent() {
-            fs::create_dir_all(parent)?;
+            fs::create_dir_all(parent).await?;
         }
-        fs::write(path, raw_json)?;
+        fs::write(path, raw_json).await?;
         Ok(())
     }
 
-    pub fn write_global(&self) -> Result<()> {
-        self.write(Self::global_path()?)
+    pub async fn write_global(&self) -> Result<()> {
+        self.write(Self::global_path()?).await
     }
 }

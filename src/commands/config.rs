@@ -31,9 +31,9 @@ pub async fn select_cluster(global: bool) -> Result<()> {
     let selected_cluster = clusters.get(selected_index).unwrap();
     let config = ClusterConfig::new(selected_cluster);
     if global {
-        config.write_global()?
+        config.write_global().await?
     } else {
-        config.write_local()?
+        config.write_local().await?
     }
     
     Ok(())
@@ -71,5 +71,5 @@ pub async fn configure_auth(token: Option<String>, cli: Option<String>) -> Resul
 
     let config = maybe_token_config.or(maybe_cli_config).context("Either CLI or token auth should be specified")?;
 
-    config.write_global()
+    config.write_global().await
 }

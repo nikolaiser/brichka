@@ -14,12 +14,12 @@ async fn create_temporary_context(cluster_id: String) -> Result<String> {
 }
 
 async fn get_or_create_context(cluster_id: String, init: bool) -> Result<String> {
-    let existing_context = ContextConfig::read_local();
+    let existing_context = ContextConfig::read_local().await;
     match existing_context {
         Err(_) => {
             if init {
                 crate::commands::init::init().await?;
-                let context = ContextConfig::read_local()?;
+                let context = ContextConfig::read_local().await?;
                 Ok(context.id)
             } else {
                 create_temporary_context(cluster_id).await
@@ -34,7 +34,7 @@ async fn get_or_create_context(cluster_id: String, init: bool) -> Result<String>
             } else {
                 if init {
                     crate::commands::init::init().await?;
-                    let context = ContextConfig::read_local()?;
+                    let context = ContextConfig::read_local().await?;
                     Ok(context.id)
                 } else {
                     anyhow::bail!("Execution context does not exist anymore. Recreate it with `brichka init`")
@@ -291,7 +291,7 @@ pub async fn check_cluster_state(cluster_id: String, start: bool) -> Result<()> 
 }
 
 pub async fn run(command: String, language: String, init: bool, start: bool) -> Result<()> {
-    let cluster_id = ClusterConfig::read_local().or(ClusterConfig::read_global())?.id;
+    let cluster_id = ClusterConfig::read_local().await.or(ClusterConfig::read_global().await)?.id;
     check_cluster_state(cluster_id.to_owned(), start).await?;
     let context_id = get_or_create_context(cluster_id.to_owned(), init).await?;
 

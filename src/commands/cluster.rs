@@ -12,7 +12,7 @@ pub async fn list() -> Result<()> {
 }
 
 pub async fn start() -> Result<()> {
-    let cluster = ClusterConfig::read_local().or(ClusterConfig::read_global())?;
+    let cluster = ClusterConfig::read_local().await.or(ClusterConfig::read_global().await)?;
     let cluster_id = cluster.id;
     crate::client::cluster::start(cluster_id.to_owned()).await?;
     

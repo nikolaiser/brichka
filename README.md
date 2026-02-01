@@ -15,7 +15,7 @@ Works standalone or with the [Neovim plugin](https://github.com/nikolaiser/brich
 ## Installation
 
 Prerequisites:
-* Authenticated [databricks-cli](https://github.com/databricks/cli)
+* (Optional) Authenticated [databricks-cli](https://github.com/databricks/cli) 
  
 <details>
 <summary>Installation methods</summary>
@@ -117,6 +117,13 @@ Results are returned as JSONL in a temporary file:
 ```
 
 View results with any tool that reads JSONL (e.g., [visidata](https://www.visidata.org/), jq, etc.)
+
+### Databricks Authentication
+
+By default brichka uses Databricks Cli for authentication. Alternatively a personal access token can be used to avoid this dependency. For instructions how to configure it run
+```bash
+brichka config auth --help
+```
 
 ### Shared Execution Contexts (Notebook Mode)
 

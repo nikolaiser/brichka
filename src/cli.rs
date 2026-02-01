@@ -89,6 +89,7 @@ pub enum StatusCommands {
 
 #[derive(Subcommand, Debug, Clone)]
 pub enum AuthConfigCommands {
+    /// Configure Databricks authentication using personal access token
     Token {
         /// Databricks token
         #[arg(long, short)]
@@ -97,6 +98,7 @@ pub enum AuthConfigCommands {
         #[arg(long, short)]
         host: String
     },
+    /// Configure Databricks authentication using databricks cli
     Cli {
         /// Path to Databricks CLI executable
         #[arg(long, short, default_value="databricks")]

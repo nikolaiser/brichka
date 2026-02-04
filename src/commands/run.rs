@@ -103,7 +103,7 @@ enum CommandRunResult {
 
 fn is_complex_type(field_type: &str) -> bool {
     let trimmed_type = field_type.trim();
-    trimmed_type.starts_with("{}") || trimmed_type.starts_with("[")
+    trimmed_type.starts_with("{") || trimmed_type.starts_with("[")
 }
 
 fn format_array_value(schema: &serde_json::Value, value: &serde_json::Value) -> Result<String> {

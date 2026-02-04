@@ -39,7 +39,8 @@ async fn run(cli: &Cli) -> Result<()> {
             StatusCommands::Cluster => commands::status::cluster().await?
         },
         Commands::Run { command, language, init, start } => commands::run::run(command.into_inner(), language, init, start).await?,
-        Commands::Lsp => commands::lsp::start().await?
+        Commands::Lsp => commands::lsp::start().await?,
+        Commands::Version => println!("{}", env!("CARGO_PKG_VERSION"))
     };
 
     Ok(())

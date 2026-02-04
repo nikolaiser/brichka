@@ -57,7 +57,9 @@ pub enum Commands {
         start: bool,
     },
     /// Start LSP server for Unity Catalog completion
-    Lsp
+    Lsp,
+    /// Print the current version
+    Version
 }
 
 #[derive(Subcommand, Debug, Clone)]

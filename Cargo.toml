@@ -15,7 +15,7 @@ anyhow = "1.0"
 clap = { version = "4.0", features = ["derive"] }
 clap-stdin = "0.8.0"
 # Until https://github.com/skim-rs/skim/issues/905 is fixed
-skim = "0.20.5"
+skim = "4.0.0"
 tower-lsp = "0.20.0"
 dashmap = "6.1.0"
 reqwest = "0.13.1"

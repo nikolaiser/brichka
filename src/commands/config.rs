@@ -51,7 +51,7 @@ fn run_skim(items: &str) -> Result<usize> {
     let skim_items = item_reader.of_bufread(Cursor::new(items.to_string()));
 
 
-    let output = Skim::run_with(&options, Some(skim_items)).context("Failed to run skim")?;
+    let output = Skim::run_with(options, Some(skim_items)).map_err(|e| anyhow::anyhow!("{e:#}")).context("Failed to run skim")?;
 
     if output.is_abort {
         anyhow::bail!("Selection aborted");
@@ -62,7 +62,7 @@ fn run_skim(items: &str) -> Result<usize> {
         .first()
         .context("No item selected")?;
 
-    Ok(selected.get_index())
+    Ok(selected.rank.index.try_into()?)
 }
 
 pub async fn configure_token_auth(token: String, host: String) -> Result<()> {

@@ -68,6 +68,8 @@ pub enum ClusterCommands {
     List,
     /// Start a terminated cluster
     Start,
+    /// Print the current status of the selected cluster
+    Status,
 }
 
 #[derive(Subcommand, Debug, Clone)]

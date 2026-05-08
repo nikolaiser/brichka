@@ -24,7 +24,8 @@ async fn run(cli: &Cli) -> Result<()> {
     match cli.command.to_owned() {
         Commands::Cluster { command } => match command {
             ClusterCommands::List => commands::cluster::list().await?,
-            ClusterCommands::Start => commands::cluster::start().await?
+            ClusterCommands::Start => commands::cluster::start().await?,
+            ClusterCommands::Status => commands::cluster::status().await?
         },
         Commands::Config { command, global } => match command {
             ConfigCommands::Cluster => commands::config::select_cluster(global).await?,

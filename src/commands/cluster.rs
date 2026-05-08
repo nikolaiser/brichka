@@ -11,6 +11,13 @@ pub async fn list() -> Result<()> {
     Ok(())
 }
 
+pub async fn status() -> Result<()> {
+    let cluster = ClusterConfig::read_local().await.or(ClusterConfig::read_global().await)?;
+    let state = crate::client::cluster::get_info(cluster.id).await?.state;
+    println!("{}", state);
+    Ok(())
+}
+
 pub async fn start() -> Result<()> {
     let cluster = ClusterConfig::read_local().await.or(ClusterConfig::read_global().await)?;
     let cluster_id = cluster.id;

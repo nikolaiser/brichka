@@ -37,8 +37,8 @@ pub async fn get_info(cluster_id: String) -> Result<GetClusterInfoResponse> {
 }
 
 pub async fn start(cluster_id: String) -> Result<GetClusterInfoResponse> {
-    let request_body = format!("{{\"clusterId\": \"{}\"}}", cluster_id);
-    let path = format!("/api/2.1/clusters/start"); 
-    let response = crate::client::call_databricks_api::<GetClusterInfoResponse>(Method::GET, &path, Some(request_body)).await?;
+    let request_body = format!("{{\"cluster_id\": \"{}\"}}", cluster_id);
+    let path = "/api/2.1/clusters/start";
+    let response = crate::client::call_databricks_api::<GetClusterInfoResponse>(Method::POST, path, Some(request_body)).await?;
     Ok(response)
 }
